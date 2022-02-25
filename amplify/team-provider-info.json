@@ -10,6 +10,14 @@
       "StackName": "amplify-dataexporter-dev-232036",
       "StackId": "arn:aws:cloudformation:ap-southeast-1:664108689398:stack/amplify-dataexporter-dev-232036/7e33c420-964e-11ec-a5dc-02150a6db1e0",
       "AmplifyAppId": "d5vi1ih95sfe3"
+    },
+    "categories": {
+      "function": {
+        "getData": {
+          "deploymentBucketName": "amplify-dataexporter-dev-232036-deployment",
+          "s3Key": "amplify-builds/getData-4c4e4138376d305a446c-build.zip"
+        }
+      }
     }
   }
 }
