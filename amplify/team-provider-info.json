@@ -15,7 +15,7 @@
       "function": {
         "getData": {
           "deploymentBucketName": "amplify-dataexporter-dev-232036-deployment",
-          "s3Key": "amplify-builds/getData-4c4e4138376d305a446c-build.zip"
+          "s3Key": "amplify-builds/getData-5274724a583634574871-build.zip"
         }
       }
     }
