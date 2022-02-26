@@ -1,6 +1,12 @@
 export type AmplifyDependentResourcesAttributes = {
     "function": {
-        "getData": {
+        "getIntakeData": {
+            "Name": "string",
+            "Arn": "string",
+            "Region": "string",
+            "LambdaExecutionRole": "string"
+        },
+        "getGraduatesData": {
             "Name": "string",
             "Arn": "string",
             "Region": "string",
@@ -8,7 +14,7 @@ export type AmplifyDependentResourcesAttributes = {
         }
     },
     "api": {
-        "api756e8aa1": {
+        "apicd72aa41": {
             "RootUrl": "string",
             "ApiName": "string",
             "ApiId": "string"

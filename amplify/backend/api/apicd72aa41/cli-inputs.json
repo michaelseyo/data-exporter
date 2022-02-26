@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "paths": {
+    "/data/intake": {
+      "name": "/data/intake",
+      "lambdaFunction": "getIntakeData",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/data/graduates": {
+      "name": "/data/graduates",
+      "lambdaFunction": "getGraduatesData",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}

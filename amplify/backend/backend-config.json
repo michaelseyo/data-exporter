@@ -1,19 +1,32 @@
 {
   "function": {
-    "getData": {
+    "getIntakeData": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "getGraduatesData": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
   },
   "api": {
-    "api756e8aa1": {
+    "apicd72aa41": {
       "service": "API Gateway",
       "providerPlugin": "awscloudformation",
       "dependsOn": [
         {
           "category": "function",
-          "resourceName": "getData",
+          "resourceName": "getIntakeData",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "getGraduatesData",
           "attributes": [
             "Name",
             "Arn"

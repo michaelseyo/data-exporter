@@ -5,8 +5,8 @@ const axios = require('axios');
  */
 exports.handler = async (event) => {
     const res = await axios.get('https://data.gov.sg/api/action/datastore_search?resource_id=be05b06d-1042-45de-a35b-5a5e04e7c704');
-    const data = res.data.result;
-    console.log(data);
+    const intakeData = res.data.result;
+    console.log(intakeData);
     return {
         statusCode: 200,
         headers: {
@@ -14,8 +14,9 @@ exports.handler = async (event) => {
             "Access-Control-Allow-Headers": "*"
         }, 
         body: JSON.stringify({
-            message: 'Retrieved graduate data',
-            data: data
+            message: 'Retrieved intake data',
+            data: intakeData
         }),
     };
 };
+
