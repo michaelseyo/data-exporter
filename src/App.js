@@ -1,171 +1,109 @@
-import Amplify, { API } from 'aws-amplify'
-import React, { useEffect, useState } from 'react'
-
-import { Box, Button, Card, CardHeader, CardContent } from '@mui/material';
+import { API } from 'aws-amplify'
+import React, { useState } from 'react'
+import { Box, 
+        Button, 
+        Card, 
+        CardHeader, 
+        CardContent } from '@mui/material';
 import LineChart from './components/LineChart';
+import { graduatesDataOptions, 
+        differenceDataOptions, 
+        getInstitutions, 
+        filterPast5Years, 
+        makeGraduatesChartParams,
+        makeDifferenceChartParams, 
+        getIntakeGraduatesDifference } from './Chart';
+import { convertJsonToExcel } from './Excel';
 
 const myAPI = "apicd72aa41";
-const path = '/data';
-
-const filterPast5Years = (dataArray) => {
-  return dataArray.filter(data => data.year >= "2016")
-            .filter(data => data.sex === "MF");
-}
-
-const makeChartParams = (rawData) => {
-  return {
-      labels: rawData.map((data) => data.year),
-      datasets: [
-        {
-          label: "ITE",
-          data: rawData.map((data) => data.ite),
-          borderColor: 'rgb(80, 220, 100)',
-          backgroundColor: 'rgb(80, 220, 100)'
-        },
-        {
-          label: "nafa-diploma",
-          data: rawData.map((data) => data.nafa_diploma),
-          borderColor: 'rgb(61, 183, 228)',
-          backgroundColor: 'rgb(61, 183, 228)'
-        },
-        {
-          label: "ngee_ann_polytechnic",
-          data: rawData.map((data) => data.ngee_ann_polytechnic),
-          borderColor: 'rgb(61, 183, 228)',
-          backgroundColor: 'rgb(61, 183, 228)'
-        },
-        {
-          label: "temasek_polytechnic",
-          data: rawData.map((data) => data.temasek_polytechnic),
-          borderColor: 'rgb(61, 183, 228)',
-          backgroundColor: 'rgb(61, 183, 228)'
-        },
-        {
-          label: "nanyang_polytechnic",
-          data: rawData.map((data) => data.nanyang_polytechnic),
-          borderColor: 'rgb(61, 183, 228)',
-          backgroundColor: 'rgb(61, 183, 228)'
-        },
-        {
-          label: "republic_polytechnic",
-          data: rawData.map((data) => data.republic_polytechnic),
-          borderColor: 'rgb(61, 183, 228)',
-          backgroundColor: 'rgb(61, 183, 228)'
-        },
-        {
-          label: "singapore_polytechnic",
-          data: rawData.map((data) => data.singapore_polytechnic),
-          borderColor: 'rgb(61, 183, 228)',
-          backgroundColor: 'rgb(61, 183, 228)'
-        },
-        {
-          label: "lasalle_diploma",
-          data: rawData.map((data) => data.laselle_diploma),
-          borderColor: 'rgb(61, 183, 228)',
-          backgroundColor: 'rgb(61, 183, 228)'
-        },
-        {
-          label: "lasalle_degree",
-          data: rawData.map((data) => data.lasalle_degree),
-          borderColor: 'rgb(255, 99, 132)',
-          backgroundColor: 'rgb(255, 99, 132)'
-        },
-        {
-          label: "nafa_degree",
-          data: rawData.map((data) => data.nafa_degree),
-          borderColor: 'rgb(255, 99, 132)',
-          backgroundColor: 'rgb(255, 99, 132)'
-        },
-        {
-          label: "sit",
-          data: rawData.map((data) => data.sit),
-          borderColor: 'rgb(255, 99, 132)',
-          backgroundColor: 'rgb(255, 99, 132)'
-        },
-        {
-          label: "SMU",
-          data: rawData.map((data) => data.smu),
-          borderColor: 'rgb(255, 99, 132)',
-          backgroundColor: 'rgb(255, 99, 132)'
-        },
-        {
-          label: "NTU",
-          data: rawData.map((data) => data.ntu),
-          borderColor: 'rgb(255, 99, 132)',
-          backgroundColor: 'rgb(255, 99, 132)'
-        },
-        {
-          label: "NUS",
-          data: rawData.map((data) => data.nus),
-          borderColor: 'rgb(255, 99, 132)',
-          backgroundColor: 'rgb(255, 99, 132)'
-        }, 
-        {
-          label: "SUTD",
-          data: rawData.map((data) => data.sutd),
-          borderColor: 'rgb(255, 99, 132)',
-          backgroundColor: 'rgb(255, 99, 132)'
-        },
-        {
-          label: "SUSS",
-          data: rawData.map((data) => data.suss),
-          borderColor: 'rgb(255, 99, 132)',
-          backgroundColor: 'rgb(255, 99, 132)'
-        },
-        {
-          label: "NIE",
-          data: rawData.map((data) => data.nie),
-          borderColor: 'rgb(255, 99, 132)',
-          backgroundColor: 'rgb(255, 99, 132)'
-        }
-      ]
-    }
-}
+const graduatesPath = '/data/graduates';
+const intakePath = '/data/intake';
 
 function App() {
-  const [chartData, setChartData] = useState({});
-  const [chartMade, setChartMade] = useState(false);
+  const [graduatesChartData, setGraduatesChartData] = useState({});
+  const [graduatesData, setGraduatesData] = useState({});
+  const [differenceChartData, setDifferenceChartData] = useState({});
+  const [differenceData, setDifferenceData] = useState({});
+  const [graduatesChartMade, setGraduatesChartMade] = useState(false);
+  const [differenceChartMade, setDifferenceChartMade] = useState(false);
 
-  const createChart = async () => {
-    const res = await API.get(myAPI, path);
-    const dataArray = res.data.records;
-    console.log(dataArray);
-    const filteredData = filterPast5Years(dataArray);
-    const chartParams = makeChartParams(filteredData);
-    setChartData(chartParams);
-    setChartMade(true)
-  }
+  const initCharts = async() => {
+    const graduatesRes = await API.get(myAPI, graduatesPath);
+    const institutions = getInstitutions(graduatesRes.data.fields);
+    const graduatesRawData = graduatesRes.data.records;
+    console.log(graduatesRawData);
+    const filteredGraduatesData = filterPast5Years(graduatesRawData);
+    setGraduatesData(filteredGraduatesData);
   
+    const graduatesChartParams = makeGraduatesChartParams(filteredGraduatesData);
+    console.log(graduatesChartParams.datasets);
+    setGraduatesChartData(graduatesChartParams);
+    setGraduatesChartMade(true);
+
+    const intakeRes = await API.get(myAPI, intakePath);
+    const intakeRawData = intakeRes.data.records;
+    console.log(intakeRawData);
+    const filteredIntakeData = filterPast5Years(intakeRawData);
+    const differenceData = getIntakeGraduatesDifference(institutions, filteredIntakeData, filteredGraduatesData);
+    console.log(differenceData);
+    setDifferenceData(differenceData);
+    const differenceChartParams = makeDifferenceChartParams(filteredIntakeData, filteredGraduatesData);
+    setDifferenceChartData(differenceChartParams);
+    setDifferenceChartMade(true);
+  }
+
   return (
     <Box>
       <Card 
         variant="outlined"
         sx={{
-          margin: 30,
-          padding: 5,
+          marginLeft: 10,
+          marginRight: 10,
+          marginTop: 5,
+          marginBottom: 5,
           backgroundColor: "#F0F8FF"
         }}
       >
-        <CardHeader title="Data Exporter" sx={{ textAlign: 'center'}}/>
+        <CardHeader 
+          title="Visualize and Export"
+          subheader="Using the dataset from: https://data.gov.sg/dataset/intake-enrolmentandgraduates-by-institutions?resource_id=be05b06d-1042-45de-a35b-5a5e04e7c704" 
+          sx={{ textAlign: 'center'}}/>
         <CardContent 
           sx={{
-            display: 'flex', 
+            display: 'flex',
             justifyContent: 'center'
           }}
         >
-          <Button onClick={createChart}> Get stuff </Button>
+          <Button onClick={initCharts}> Get Chart </Button>
+          {graduatesChartMade && differenceChartMade && 
+            <Button onClick={() => convertJsonToExcel(graduatesData, differenceData)}> 
+              Export Root Data 
+            </Button>
+          }
         </CardContent>
       </Card>
-      <Box 
-        sx={
-          {
-            display:'flex',
+      {graduatesChartMade && differenceChartMade && 
+      <Box>
+        <Box 
+          sx={{
+            display: 'flex',
             justifyContent: 'center',
-          }
-        }
-      >
-        {chartMade && <LineChart data={chartData}/>}
+            marginBottom: 10
+          }}
+        >
+          <LineChart data={graduatesChartData} options={graduatesDataOptions}/>
+        </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            marginBottom: 10
+          }}
+        >
+          <LineChart data={differenceChartData} options={differenceDataOptions}/>
+        </Box>
       </Box>
+      }
     </Box>
   );
 }
