@@ -4,7 +4,10 @@ import { Box,
         Button, 
         Card, 
         CardHeader, 
-        CardContent } from '@mui/material';
+        CardContent,
+        Typography,
+        Link,
+        useMediaQuery } from '@mui/material';
 import LineChart from './components/LineChart';
 import { graduatesDataOptions, 
         differenceDataOptions, 
@@ -31,10 +34,8 @@ function App() {
     const graduatesRes = await API.get(myAPI, graduatesPath);
     const institutions = getInstitutions(graduatesRes.data.fields);
     const graduatesRawData = graduatesRes.data.records;
-    console.log(graduatesRawData);
     const filteredGraduatesData = filterPast5Years(graduatesRawData);
     setGraduatesData(filteredGraduatesData);
-  
     const graduatesChartParams = makeGraduatesChartParams(filteredGraduatesData);
     console.log(graduatesChartParams.datasets);
     setGraduatesChartData(graduatesChartParams);
@@ -42,16 +43,14 @@ function App() {
 
     const intakeRes = await API.get(myAPI, intakePath);
     const intakeRawData = intakeRes.data.records;
-    console.log(intakeRawData);
     const filteredIntakeData = filterPast5Years(intakeRawData);
     const differenceData = getIntakeGraduatesDifference(institutions, filteredIntakeData, filteredGraduatesData);
-    console.log(differenceData);
     setDifferenceData(differenceData);
     const differenceChartParams = makeDifferenceChartParams(filteredIntakeData, filteredGraduatesData);
     setDifferenceChartData(differenceChartParams);
     setDifferenceChartMade(true);
   }
-
+  
   return (
     <Box>
       <Card 
@@ -61,17 +60,29 @@ function App() {
           marginRight: 10,
           marginTop: 5,
           marginBottom: 5,
-          backgroundColor: "#F0F8FF"
+          backgroundColor: "#F0F8FF",
+          minWidth: 200
         }}
       >
         <CardHeader 
-          title="Visualize and Export"
-          subheader="Using the dataset from: https://data.gov.sg/dataset/intake-enrolmentandgraduates-by-institutions?resource_id=be05b06d-1042-45de-a35b-5a5e04e7c704" 
-          sx={{ textAlign: 'center'}}/>
+          title='Visualize and Export'
+          subheader={
+            <Link
+              href='https://data.gov.sg/dataset/intake-enrolment-and-graduates-by-institutions?resource_id=be05b06d-1042-45de-a35b-5a5e04e7c704'
+            >
+              Source data
+            </Link>
+          }
+          sx={{ 
+            display: 'block', 
+            textAlign: 'center'
+          }}
+        />
         <CardContent 
           sx={{
             display: 'flex',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            padding: 0
           }}
         >
           <Button onClick={initCharts}> Get Chart </Button>
