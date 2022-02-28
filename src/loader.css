@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+.loader {
+    font-family: 'Lato', sans-serif;
+    text-align: center;
+    font-weight: bold;
+}
+
+.loader::after {
+    content: '\2026';
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+    animation: dots steps(4, end) 0.5s infinite;
+    width: 0px;
+}
+
+@keyframes dots {
+    to {
+        width: 1.05em;
+    }
+}

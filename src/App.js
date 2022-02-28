@@ -17,6 +17,7 @@ import { graduatesDataOptions,
         makeDifferenceChartParams, 
         getIntakeGraduatesDifference } from './Chart';
 import { convertJsonToExcel } from './Excel';
+import './loader.css'
 
 const myAPI = "apicd72aa41";
 const graduatesPath = '/data/graduates';
@@ -29,15 +30,16 @@ function App() {
   const [differenceData, setDifferenceData] = useState({});
   const [graduatesChartMade, setGraduatesChartMade] = useState(false);
   const [differenceChartMade, setDifferenceChartMade] = useState(false);
+  const [start, setStart] = useState(false);
 
   const initCharts = async() => {
+    setStart(true);
     const graduatesRes = await API.get(myAPI, graduatesPath);
     const institutions = getInstitutions(graduatesRes.data.fields);
     const graduatesRawData = graduatesRes.data.records;
     const filteredGraduatesData = filterPast5Years(graduatesRawData);
     setGraduatesData(filteredGraduatesData);
     const graduatesChartParams = makeGraduatesChartParams(filteredGraduatesData);
-    console.log(graduatesChartParams.datasets);
     setGraduatesChartData(graduatesChartParams);
     setGraduatesChartMade(true);
 
@@ -49,8 +51,9 @@ function App() {
     const differenceChartParams = makeDifferenceChartParams(filteredIntakeData, filteredGraduatesData);
     setDifferenceChartData(differenceChartParams);
     setDifferenceChartMade(true);
+    setStart(false);
   }
-  
+
   return (
     <Box>
       <Card 
@@ -75,7 +78,7 @@ function App() {
           }
           sx={{ 
             display: 'block', 
-            textAlign: 'center'
+            textAlign: 'center',
           }}
         />
         <CardContent 
@@ -93,6 +96,18 @@ function App() {
           }
         </CardContent>
       </Card>
+
+      { start && !graduatesChartMade && !differenceChartMade &&
+        <Typography 
+          className="loader"
+          sx={{
+            fontSize: 20
+          }}
+        >
+          Loading
+        </Typography>
+      }
+
       {graduatesChartMade && differenceChartMade && 
       <Box>
         <Box 
