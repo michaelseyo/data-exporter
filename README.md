@@ -15,7 +15,7 @@ This is a serverless application that retrieves [this dataset](https://data.gov.
 - Reactjs 
 - Node
 
-I used `AWS Amplify` to set up the directories and its CLI for setting up a simple API making use of `AWS Lambda` functions to get the various data from the dataset.
+I used `AWS Amplify` to set up the directories and its CLI for setting up a simple REST API making use of `AWS Lambda` functions to get the various data from the dataset.
 
 The frontend was made using `Reactjs`. UI was designed using some CSS and the react UI library `MUI` for components.
 
