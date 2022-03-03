@@ -20,8 +20,6 @@ import { convertJsonToExcel } from './Excel';
 import './loader.css'
 
 const myAPI = "apicd72aa41";
-const graduatesPath = '/data/graduates';
-const intakePath = '/data/intake';
 
 function App() {
   const [graduatesChartData, setGraduatesChartData] = useState({});
@@ -34,17 +32,17 @@ function App() {
 
   const initCharts = async() => {
     setStart(true);
-    const graduatesRes = await API.get(myAPI, graduatesPath);
-    const institutions = getInstitutions(graduatesRes.data.fields);
-    const graduatesRawData = graduatesRes.data.records;
+    const graduatesRes = await (await fetch('https://data.gov.sg/api/action/datastore_search?resource_id=2264a6ed-51f5-45d6-accb-1a980e32e632')).json();
+    const institutions = getInstitutions(graduatesRes.result.fields);
+    const graduatesRawData = graduatesRes.result.records;
     const filteredGraduatesData = filterPast5Years(graduatesRawData);
     setGraduatesData(filteredGraduatesData);
     const graduatesChartParams = makeGraduatesChartParams(filteredGraduatesData);
     setGraduatesChartData(graduatesChartParams);
     setGraduatesChartMade(true);
 
-    const intakeRes = await API.get(myAPI, intakePath);
-    const intakeRawData = intakeRes.data.records;
+    const intakeRes = await (await fetch('https://data.gov.sg/api/action/datastore_search?resource_id=be05b06d-1042-45de-a35b-5a5e04e7c704')).json();
+    const intakeRawData = intakeRes.result.records;
     const filteredIntakeData = filterPast5Years(intakeRawData);
     const differenceData = getIntakeGraduatesDifference(institutions, filteredIntakeData, filteredGraduatesData);
     setDifferenceData(differenceData);
