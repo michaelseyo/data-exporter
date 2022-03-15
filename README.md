@@ -7,15 +7,14 @@ The app is hosted on [AWS Amplify](https://docs.amplify.aws).
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Overview
-This is a serverless application that retrieves [this dataset](https://data.gov.sg/dataset/intake-enrolmentandgraduates-by-institutions?resource_id=be05b06d-1042-45de-a35b-5a5e04e7c704) by accessing AWS Lambda functions and produces data vizualizations after processing the data. The root data before manipulation for plotting the charts can be downloaded into an excel file. 
+This is an application that retrieves [this dataset](https://data.gov.sg/dataset/intake-enrolmentandgraduates-by-institutions?resource_id=be05b06d-1042-45de-a35b-5a5e04e7c704) and produces data vizualizations after processing the data. The root data before manipulation for plotting the charts can be downloaded into an excel file. 
 
 ## Tech used:
 - AWS Amplify
-- AWS Lambda 
 - Reactjs 
 - Node
 
-I used `AWS Amplify` to set up the directories and its CLI for setting up a simple REST API making use of `AWS Lambda` functions to get the various data from the dataset.
+I used `AWS Amplify` to set up the directories.
 
 The frontend was made using `Reactjs`. UI was designed using some CSS and the react UI library `MUI` for components.
 
@@ -31,8 +30,6 @@ To run locally:
 ```
 
 ## Challenges
-Setting up was difficult as this was my first time making use of `AWS Lambda` functions to create a serverless app, but luckily there was `AWS Amplify` to help to ease the process. 
-
 I initially also faced difficulty in determining what type of chart I should plot out. To plot the trend of the number of graduates from the past 5 years across institutions, I settled on using a line chart since time is a continuous variable. However, the root data that I used before manipulation contained many different institutions and when I plotted all of them, the line chart was too cluttered. Furthermore, the scale wasn't very good because of the large range of numbers.
 
 I realised that to make a fairer comparison, since the data for ITE institution were combined into the 3 different campuses (ITE College West/East/Central), it would be better to combine the different institutions into the 3 qualifications: ITE, Diploma, Degree. This reduced the number of lines to be plotted and also made comparison fairer.
