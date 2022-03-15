@@ -1,4 +1,3 @@
-import { API } from 'aws-amplify'
 import React, { useState } from 'react'
 import { Box, 
         Button, 
@@ -18,8 +17,6 @@ import { graduatesDataOptions,
         getIntakeGraduatesDifference } from './Chart';
 import { convertJsonToExcel } from './Excel';
 import './loader.css'
-
-const myAPI = "apicd72aa41";
 
 function App() {
   const [graduatesChartData, setGraduatesChartData] = useState({});
@@ -88,7 +85,7 @@ function App() {
         >
           <Button onClick={initCharts}> Get Chart </Button>
           {graduatesChartMade && differenceChartMade && 
-            <Button onClick={() => convertJsonToExcel(graduatesData, differenceData)}> 
+            <Button onClick={() => convertJsonToExcel(graduatesData, differenceData )}> 
               Export Root Data 
             </Button>
           }

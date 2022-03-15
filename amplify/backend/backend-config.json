@@ -1,32 +1,19 @@
 {
   "function": {
-    "getIntakeData": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
-    "getGraduatesData": {
+    "exportExcel": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
   },
   "api": {
-    "apicd72aa41": {
+    "apif0af0066": {
       "service": "API Gateway",
       "providerPlugin": "awscloudformation",
       "dependsOn": [
         {
           "category": "function",
-          "resourceName": "getIntakeData",
-          "attributes": [
-            "Name",
-            "Arn"
-          ]
-        },
-        {
-          "category": "function",
-          "resourceName": "getGraduatesData",
+          "resourceName": "exportExcel",
           "attributes": [
             "Name",
             "Arn"

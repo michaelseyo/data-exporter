@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/excel": {
+      "name": "/excel",
+      "lambdaFunction": "exportExcel",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}

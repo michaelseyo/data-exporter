@@ -1,33 +1,29 @@
 {
-    "dev": {
-        "awscloudformation": {
-            "AuthRoleName": "amplify-dataexporter-dev-232036-authRole",
-            "UnauthRoleArn": "arn:aws:iam::664108689398:role/amplify-dataexporter-dev-232036-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::664108689398:role/amplify-dataexporter-dev-232036-authRole",
-            "Region": "ap-southeast-1",
-            "DeploymentBucketName": "amplify-dataexporter-dev-232036-deployment",
-            "UnauthRoleName": "amplify-dataexporter-dev-232036-unauthRole",
-            "StackName": "amplify-dataexporter-dev-232036",
-            "StackId": "arn:aws:cloudformation:ap-southeast-1:664108689398:stack/amplify-dataexporter-dev-232036/7e33c420-964e-11ec-a5dc-02150a6db1e0",
-            "AmplifyAppId": "d5vi1ih95sfe3"
-        },
-        "categories": {
-            "function": {
-                "getGraduatesData": {
-                    "deploymentBucketName": "amplify-dataexporter-dev-232036-deployment",
-                    "s3Key": "amplify-builds/getGraduatesData-59386a452b517063464f-build.zip"
-                },
-                "getIntakeData": {
-                    "deploymentBucketName": "amplify-dataexporter-dev-232036-deployment",
-                    "s3Key": "amplify-builds/getIntakeData-47456f38553664717669-build.zip"
-                }
-            },
-            "hosting": {
-                "amplifyhosting": {
-                    "appId": "d5vi1ih95sfe3",
-                    "type": "cicd"
-                }
-            }
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-dataexporter-dev-232036-authRole",
+      "UnauthRoleArn": "arn:aws:iam::664108689398:role/amplify-dataexporter-dev-232036-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::664108689398:role/amplify-dataexporter-dev-232036-authRole",
+      "Region": "ap-southeast-1",
+      "DeploymentBucketName": "amplify-dataexporter-dev-232036-deployment",
+      "UnauthRoleName": "amplify-dataexporter-dev-232036-unauthRole",
+      "StackName": "amplify-dataexporter-dev-232036",
+      "StackId": "arn:aws:cloudformation:ap-southeast-1:664108689398:stack/amplify-dataexporter-dev-232036/7e33c420-964e-11ec-a5dc-02150a6db1e0",
+      "AmplifyAppId": "d5vi1ih95sfe3"
+    },
+    "categories": {
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d5vi1ih95sfe3",
+          "type": "cicd"
         }
+      },
+      "function": {
+        "exportExcel": {
+          "deploymentBucketName": "amplify-dataexporter-dev-232036-deployment",
+          "s3Key": "amplify-builds/exportExcel-76366b37764269424270-build.zip"
+        }
+      }
     }
+  }
 }

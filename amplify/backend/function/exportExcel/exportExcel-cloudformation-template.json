@@ -47,12 +47,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "getGraduatesData",
+            "exportExcel",
             {
               "Fn::Join": [
                 "",
                 [
-                  "getGraduatesData",
+                  "exportExcel",
                   "-",
                   {
                     "Ref": "env"
@@ -89,12 +89,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "dataexporterLambdaRoled71cc834",
+            "dataexporterLambdaRole8d9a7d40",
             {
               "Fn::Join": [
                 "",
                 [
-                  "dataexporterLambdaRoled71cc834",
+                  "dataexporterLambdaRole8d9a7d40",
                   "-",
                   {
                     "Ref": "env"
